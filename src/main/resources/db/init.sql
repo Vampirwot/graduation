@@ -13,7 +13,7 @@ create table users
     email       varchar not null,
     password    varchar not null,
     name        varchar not null,
-    role        varchar not null
+    role        varchar not null default 'USER'
 );
 
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
@@ -30,13 +30,13 @@ create unique index restaurants_unique_name_idx on restaurants(name);
 create table votes
 (
     id                    bigint primary key default nextval('global_seq'),
-    date                  timestamp default now(),
+    date                  date  not null,
     restaurant_id         bigint not null,
     user_id               bigint not null,
     foreign key (restaurant_id ) references restaurants(id) on delete cascade,
     foreign key (user_id) references users(id) on delete cascade
 );
-
+create unique index votes_unique_date on votes(user_id,date);
 create table dishes
 (
     id                  bigint primary key default nextval('global_seq'),
@@ -45,4 +45,5 @@ create table dishes
     date                date not null,
     restaurant_id       bigint not null,
     foreign key (restaurant_id) references restaurants(id) on delete cascade
-)
+);
+create unique index dishes_unique_name_date_restaurant_id_idx on dishes(restaurant_id,name,date);

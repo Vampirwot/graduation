@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class AbstractBaseEntity implements HasId {
+public abstract class AbstractBaseEntity {
     public static final int START_SEQ = 100000;
 
     @Id
@@ -20,14 +20,16 @@ public abstract class AbstractBaseEntity implements HasId {
         this.id = id;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    boolean isNew() {
+        return getId() == null;
     }
 
     @Override
